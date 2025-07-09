@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Health Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .topnav {
+            background-color: #004080;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .topnav .logo h1 {
+            color: #fff;
+            font-size: 28px;
+        }
+
+        .topnav .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 14px 20px;
+            transition: 0.3s;
+        }
+
+        .topnav .nav-links a:hover {
+            background-color: #0059b3;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        .left-half {
+            width: 50%;
+            background-color: #f0f7ff;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .left-half h2 {
+            font-size: 28px;
+            color: #004080;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            color: #004080;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #004080;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #0059b3;
+        }
+
+        .right-half {
+            width: 50%;
+            background-color: #fff;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .right-half h2 {
+            font-size: 28px;
+            color: #004080;
+            margin-bottom: 20px;
+        }
+
+        .upload-area {
+            border: 2px dashed #004080;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #e6f0fa;
+            border-radius: 10px;
+        }
+
+        .upload-area input[type="file"] {
+            display: block;
+            margin: 10px auto;
+        }
+
+        .upload-btn {
+            background-color: #004080;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background-color: #0059b3;
+        }
+
+        .recommendation {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .recommendation h3 {
+            color: #004080;
+            margin-bottom: 10px;
+        }
+
+        .recommendation p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .left-half,
+            .right-half {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .topnav {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .topnav .nav-links {
+                margin-top: 15px;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .right-half {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .upload-area {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            background-color: #4ca2af;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .upload-btn:hover {
+            background-color: #4ca2af;
+        }
+
+        #uploaded-files {
+            margin-top: 20px;
+        }
+
+        .file-info {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+
+        .diet-plan {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="topnav">
+        <div class="logo">
+            <h1>CareHub</h1>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/login">Login</a>
+        </div>
+    </nav>
+    <div class="right-half">
+        <h2>Upload Health Report</h2>
+        <div class="upload-area">
+            <p>Drop your PDF here or click to upload (optional)</p>
+            <input type="file" id="pdf-upload" accept=".pdf" multiple>
+            <button class="upload-btn" id="upload-btn">Upload & Analyze</button>
+        </div>
+        <div id="uploaded-files">
+            <!-- Uploaded file details will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('upload-btn').addEventListener('click', function () {
+            const files = document.getElementById('pdf-upload').files;
+            const uploadedFilesContainer = document.getElementById('uploaded-files');
+
+            uploadedFilesContainer.innerHTML = '';  // Clear previous content
+
+            if (files.length === 0) {
+                alert("No files uploaded!");
+                return;
+            }
+
+            Array.from(files).forEach(file => {
+                const fileInfo = document.createElement('div');
+                fileInfo.classList.add('file-info');
+
+                const fileName = file.name;
+                const fileContent = getStaticContent(fileName);
+
+                fileInfo.innerHTML = `
+                    <h3>${fileName}</h3>
+                    <p><strong>Uploaded by:</strong> ${fileContent.name}</p>
+                    <p><strong>Content:</strong> </p>
+                    <div class="diet-plan">${fileContent.dietPlan}</div>
+                `;
+
+                uploadedFilesContainer.appendChild(fileInfo);
+            });
+        });
+
+        function getStaticContent(fileName) {
+            const fileToContentMap = {
+                "Srikari.pdf": {
+                    name: "Srikari",
+                    dietPlan: `
+                        <strong>Focus:</strong> Manage triglycerides and support thyroid health.<br>
+                        <strong>Approximate Daily Calorie Range:</strong> 1800-2200 (depending on activity level)<br>
+                        <strong>Morning Drink:</strong><br>
+                        - Warm water with lemon (5 calories)<br>
+                        - Green tea (2 calories)<br>
+                        - Turmeric and ginger tea (10 calories)<br>
+                        - Skimmed Milk (40 calories)<br><br>
+                        <strong>Breakfast:</strong><br>
+                        - Oatmeal with berries and nuts (250 calories)<br>
+                        - Whole wheat toast with avocado and egg (280 calories)<br>
+                        - Greek yogurt with fruit and flaxseeds (200 calories)<br>
+                        - Idli with Sambar (250 calories)<br><br>
+                        <strong>Lunch:</strong><br>
+                        - Quinoa salad with mixed vegetables and lean protein (chicken or fish) (400 calories)<br>
+                        - Lentil soup with whole wheat bread (350 calories)<br>
+                        - Brown rice with vegetable curry and a small serving of fish (450 calories)<br>
+                        - Chapati with vegetable and dal (300 calories)<br><br>
+                        <strong>Evening Snack:</strong><br>
+                        - A handful of almonds and walnuts (180 calories)<br>
+                        - Apple slices with peanut butter (200 calories)<br>
+                        - Carrot and cucumber sticks with hummus (150 calories)<br>
+                        - Sprouts Salad (100 calories)<br><br>
+                        <strong>Dinner:</strong><br>
+                        - Baked salmon with roasted vegetables (400 calories)<br>
+                        - Chicken stir-fry with brown rice (450 calories)<br>
+                        - Vegetarian chili with a side salad (350 calories)<br>
+                        - Chapati with vegetable and dal (300 calories)<br><br>
+                        <strong>Important Notes:</strong><br>
+                        - Hydration: Drink plenty of water throughout the day.<br>
+                        - Professional Guidance: Consult with a healthcare provider for personalized advice.<br>
+                        - Regular Check-ups: Monitor health markers regularly.<br>
+                        - Variety: Include a variety of foods for a broad intake of nutrients.<br>
+                        - Portion Control: Manage calorie intake effectively.<br>
+                        - Limit Processed Foods: Minimize processed foods and unhealthy fats.
+                    `
+                },
+                "Neha.pdf": {
+                    name: "Neha",
+                    dietPlan: `
+                        <strong>Focus:</strong> Lower LDL cholesterol, increase Vitamin D, and support hemoglobin levels.<br>
+                        <strong>Approximate Daily Calorie Range:</strong> 1600-2000 (depending on activity level)<br>
+                        <strong>Morning Drink:</strong><br>
+                        - Warm water with lemon (5 calories)<br>
+                        - Fortified milk with Vitamin D (120 calories)<br>
+                        - Orange juice (100 calories)<br>
+                        - Beetroot and carrot juice (70 calories)<br><br>
+                        <strong>Breakfast:</strong><br>
+                        - Oatmeal with berries and a few walnuts (250 calories)<br>
+                        - Whole wheat bread with spinach and scrambled eggs (250 calories)<br>
+                        - Fortified cereal with milk and banana (200 calories)<br>
+                        - Poha with vegetables (200 calories)<br><br>
+                        <strong>Lunch:</strong><br>
+                        - Salad with grilled chicken or fish, and a variety of vegetables (400 calories)<br>
+                        - Lentil soup with whole grain bread (350 calories)<br>
+                        - Brown rice with fish curry (450 calories)<br>
+                        - Rajma with rice (400 calories)<br><br>
+                        <strong>Evening Snack:</strong><br>
+                        - A handful of pumpkin seeds and sunflower seeds (150 calories)<br>
+                        - A small serving of edamame (100 calories)<br>
+                        - Mixed fruit salad (120 calories)<br>
+                        - Spinach and paneer (cheese) (150 calories)<br><br>
+                        <strong>Dinner:</strong><br>
+                        - Baked fish with a side of roasted vegetables (400 calories)<br>
+                        - Chicken and vegetable stew (350 calories)<br>
+                        - Quinoa with chickpeas and vegetables (300 calories)<br>
+                        - Vegetable and lentil soup (250 calories)<br><br>
+                        <strong>Important Notes:</strong><br>
+                        - Hydration: Drink plenty of water throughout the day.<br>
+                        - Professional Guidance: Consult with a healthcare provider for personalized advice.<br>
+                        - Regular Check-ups: Monitor health markers regularly.<br>
+                        - Variety: Include a variety of foods for a broad intake of nutrients.<br>
+                        - Portion Control: Manage calorie intake effectively.<br>
+                        - Limit Processed Foods: Minimize processed foods and unhealthy fats.
+                    `
+                },
+                "Varsha.pdf": {
+                    name: "Varsha",
+                    dietPlan: `
+                        <strong>Focus:</strong> Increase Vitamin D levels.<br>
+                        <strong>Approximate Daily Calorie Range:</strong> 1800-2200 (depending on activity level)<br>
+                        <strong>Morning Drink:</strong><br>
+                        - Warm water (0 calories)<br>
+                        - Fortified milk with Vitamin D (120 calories)<br>
+                        - Orange juice (100 calories)<br>
+                        - Smoothie with spinach, banana and milk (150 calories)<br><br>
+                        <strong>Breakfast:</strong><br>
+                        - Oatmeal with milk and a drizzle of maple syrup (250 calories)<br>
+                        - Eggs with whole wheat toast (200 calories)<br>
+                        - Fortified yogurt with fruit (150 calories)<br>
+                        - Upma (200 calories)<br><br>
+                        <strong>Lunch:</strong><br>
+                        - Tuna salad sandwich on whole wheat bread (350 calories)<br>
+                        - Salmon with steamed broccoli and brown rice (400 calories)<br>
+                        - Chicken and vegetable curry with brown rice (450 calories)<br>
+                        - Mixed vegetable curry with chapati (350 calories)<br><br>
+                        <strong>Evening Snack:</strong><br>
+                        - Cheese slices (100 calories)<br>
+                        - A handful of almonds (160 calories)<br>
+                        - Hard-boiled egg (80 calories)<br>
+                        - Fruit and nut mix (150 calories)<br><br>
+                        <strong>Dinner:</strong><br>
+                        - Baked chicken with sweet potatoes and green beans (400 calories)<br>
+                        - Lentil soup with a side salad (300 calories)<br>
+                        - Vegetable and tofu stir-fry (300 calories)<br>
+                        - Vegetable stew with bread (300 calories)<br><br>
+                        <strong>Important Notes:</strong><br>
+                        - Hydration: Drink plenty of water throughout the day.<br>
+                        - Professional Guidance: Consult with a healthcare provider for personalized advice.<br>
+                        - Regular Check-ups: Monitor health markers regularly.<br>
+                        - Variety: Include a variety of foods for a broad intake of nutrients.<br>
+                        - Portion Control: Manage calorie intake effectively.<br>
+                        - Limit Processed Foods: Minimize processed foods and unhealthy fats.
+                    `
+                }
+            };
+
+            return fileToContentMap[fileName] || {
+                name: "Unknown",
+                dietPlan: "please uplode a valid madical report."
+            };
+        }
+    </script>
+
+</body>
+
+</html>

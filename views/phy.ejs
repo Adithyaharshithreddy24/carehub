@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Physical Health Guide</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            /* Gradient background */
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        header {
+            background: linear-gradient(to right, #00695c, #004d40);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .sections {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 60px 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            width: 280px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #00796b;
+            transition: height 0.3s;
+        }
+
+        .card:hover::before {
+            height: 10px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #00796b;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .list-page {
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin: 0 20px 40px;
+        }
+
+        .list-page h1 {
+            text-align: center;
+            color: #004d40;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pose {
+            background: white;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            transition: transform 0.3s;
+        }
+
+        .pose:hover {
+            transform: scale(1.02);
+        }
+
+        .pose h2 {
+            color: #00796b;
+            font-size: 1.7rem;
+            margin-bottom: 10px;
+        }
+
+        .pose p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .pose img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        footer {
+            background: linear-gradient(to right, #00695c, #004d40);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Your Path to Wellness</h1>
+        <p>Explore Yoga & Mudras for a Healthier Lifestyle</p>
+    </header>
+
+    <section class="sections">
+        <a href="#yoga-section">
+            <div class="card">
+                <img src="styles/phyimg/yoga.jpg" alt="Yoga" />
+                <h2>Yoga</h2>
+                <p>Powerful Yoga Poses and their Benefits</p>
+            </div>
+        </a>
+        <a href="#mudras-section">
+            <div class="card">
+                <img src="styles/phyimg/mudra.jpg" alt="Mudras" />
+                <h2>Mudras</h2>
+                <p>Essential Mudras and their Benefits</p>
+            </div>
+        </a>
+    </section>
+
+    <div class="list-page" id="yoga-section">
+        <h1>Yoga Asanas & Their Benefits</h1>
+        <div class="pose">
+            <h2>1. Tadasana (Mountain Pose)</h2>
+            <p>Improves posture, balance, and calmness.</p><img src="styles/phyimg/tadasana.jpg" alt="Tadasana" />
+        </div>
+        <div class="pose">
+            <h2>2. Vrikshasana (Tree Pose)</h2>
+            <p>Strengthens legs, improves focus and balance.</p><img src="styles/phyimg/vrikshasana.jpg"
+                alt="Vrikshasana" />
+        </div>
+        <div class="pose">
+            <h2>3. Adho Mukha Svanasana (Downward Dog)</h2>
+            <p>Stretches and strengthens the whole body.</p><img src="styles/phyimg/Adhomukha.jpg" alt="Downward Dog" />
+        </div>
+        <div class="pose">
+            <h2>4. Trikonasana (Triangle Pose)</h2>
+            <p>Stretches legs, hips, spine; improves digestion.</p><img src="styles/phyimg/trikonasana.jpg"
+                alt="Trikonasana" />
+        </div>
+        <div class="pose">
+            <h2>5. Bhujangasana (Cobra Pose)</h2>
+            <p>Boosts spinal flexibility and opens the chest.</p><img src="styles/phyimg/Bhujangasana.jpg"
+                alt="Bhujangasana" />
+        </div>
+        <div class="pose">
+            <h2>6. Paschimottanasana (Seated Forward Bend)</h2>
+            <p>Improves digestion, calms the mind.</p><img src="styles/phyimg/pashimottasana.jpg"
+                alt="Paschimottanasana" />
+        </div>
+        <div class="pose">
+            <h2>7. Ardha Matsyendrasana (Half Spinal Twist)</h2>
+            <p>Increases spinal flexibility and detoxifies organs.</p><img src="styles/phyimg/half spin twist.jpg"
+                alt="Ardha Matsyendrasana" />
+        </div>
+        <div class="pose">
+            <h2>8. Setu Bandhasana (Bridge Pose)</h2>
+            <p>Strengthens the back and calms the brain.</p><img src="styles/phyimg/setuBanda.jpg"
+                alt="Setu Bandhasana" />
+        </div>
+        <div class="pose">
+            <h2>9. Balasana (Child's Pose)</h2>
+            <p>Relieves stress and fatigue, stretches hips and thighs.</p><img src="styles/phyimg/Balasana.jpg"
+                alt="Balasana" />
+        </div>
+        <div class="pose">
+            <h2>10. Dhanurasana (Bow Pose)</h2>
+            <p>Improves posture and strengthens the back.</p><img src="styles/phyimg/dhanurasana.jpg"
+                alt="Dhanurasana" />
+        </div>
+    </div>
+
+    <div class="list-page" id="mudras-section">
+        <h1>Mudras & Their Benefits</h1>
+        <div class="pose">
+            <h2>1. Gyan Mudra</h2>
+            <p>Enhances concentration and memory power.</p><img src="styles/phyimg/gyana.jpg" alt="Gyan Mudra" />
+        </div>
+        <div class="pose">
+            <h2>2. Prana Mudra</h2>
+            <p>Boosts vitality and strengthens the immune system.</p><img src="styles/phyimg/prana.jpg"
+                alt="Prana Mudra" />
+        </div>
+        <div class="pose">
+            <h2>3. Apana Mudra</h2>
+            <p>Helps in detoxification and digestion.</p><img src="styles/phyimg/apana.jpg" alt="Apana Mudra" />
+        </div>
+        <div class="pose">
+            <h2>4. Vayu Mudra</h2>
+            <p>Relieves joint pain and nervous disorders.</p><img src="styles/phyimg/vayu.jpg" alt="Vayu Mudra" />
+        </div>
+        <div class="pose">
+            <h2>5. Shunya Mudra</h2>
+            <p>Alleviates ear pain and numbness.</p><img src="styles/phyimg/shunya.jpg" alt="Shunya Mudra" />
+        </div>
+        <div class="pose">
+            <h2>6. Surya Mudra</h2>
+            <p>Reduces cholesterol, helps with weight loss.</p><img src="styles/phyimg/surya.jpg" alt="Surya Mudra" />
+        </div>
+        <div class="pose">
+            <h2>7. Varun Mudra</h2>
+            <p>Improves skin texture and hydrates the body.</p><img src="styles/phyimg/varuna.jpg" alt="Varun Mudra" />
+        </div>
+        <div class="pose">
+            <h2>8. Apana Vayu Mudra</h2>
+            <p>Good for heart health and emotional balance.</p><img src="styles/phyimg/apanavayu.jpg"
+                alt="Apana Vayu Mudra" />
+        </div>
+        <div class="pose">
+            <h2>9. Linga Mudra</h2>
+            <p>Generates heat and helps in respiratory issues.</p><img src="styles/phyimg/linga.jpg"
+                alt="Linga Mudra" />
+        </div>
+        <div class="pose">
+            <h2>10. Dhyana Mudra</h2>
+            <p>Brings calmness and enhances meditation.</p><img src="styles/phyimg/dhyana.jpg" alt="Dhyana Mudra" />
+        </div>
+    </div>
+
+    <footer>
+        <p>©️ 2025 CareHub. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Period Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #d23669;
+            text-align: center;
+        }
+
+        .section {
+            background: #fff5f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #d23669;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        button:hover {
+            background: #a52c52;
+        }
+
+        #status {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        #history {
+            margin-top: 10px;
+        }
+
+        .entry {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Period Tracker</h1>
+
+    <div class="section">
+        <h2>Current Cycle</h2>
+        <div id="status">No active period</div>
+        <button id="startBtn">Start Period</button>
+        <button id="endBtn">End Period</button>
+    </div>
+
+    <div class="section">
+        <h2>Log Symptoms</h2>
+        <select id="symptomSelect">
+            <option value="">Select symptom</option>
+            <option value="cramps">Cramps</option>
+            <option value="headache">Headache</option>
+            <option value="bloating">Bloating</option>
+            <option value="fatigue">Fatigue</option>
+        </select>
+        <button id="logBtn">Log</button>
+        <div id="symptoms"></div>
+    </div>
+
+    <div class="section">
+        <h2>History</h2>
+        <button id="predictBtn">Predict Next Period</button>
+        <div id="prediction"></div>
+        <div id="history"></div>
+    </div>
+
+    <script>
+        // Initialize data
+        let tracker = {
+            periods: [],
+            symptoms: {}
+        };
+
+        // Load saved data
+        if (localStorage.getItem('periodTracker')) {
+            tracker = JSON.parse(localStorage.getItem('periodTracker'));
+        }
+
+        // DOM elements
+        const startBtn = document.getElementById('startBtn');
+        const endBtn = document.getElementById('endBtn');
+        const logBtn = document.getElementById('logBtn');
+        const predictBtn = document.getElementById('predictBtn');
+        const statusDiv = document.getElementById('status');
+        const symptomsDiv = document.getElementById('symptoms');
+        const historyDiv = document.getElementById('history');
+        const predictionDiv = document.getElementById('prediction');
+
+        // Update UI
+        function updateUI() {
+            // Update status
+            const currentPeriod = tracker.periods.find(p => !p.endDate);
+            if (currentPeriod) {
+                const days = Math.floor((new Date() - new Date(currentPeriod.startDate)) / (1000 * 60 * 60 * 24));
+                statusDiv.innerHTML = `Period started: <br>${formatDate(currentPeriod.startDate)} (Day ${days + 1})`;
+                endBtn.style.display = 'inline-block';
+            } else {
+                statusDiv.textContent = 'No active period';
+                endBtn.style.display = 'none';
+            }
+
+            // Update symptoms
+            const today = new Date().toISOString().split('T')[0];
+            if (tracker.symptoms[today] && tracker.symptoms[today].length > 0) {
+                symptomsDiv.innerHTML = '<strong>Today:</strong> ' + tracker.symptoms[today].join(', ');
+            } else {
+                symptomsDiv.innerHTML = 'No symptoms logged today';
+            }
+
+            // Update history
+            if (tracker.periods.length > 0) {
+                let html = '<h3>Previous Periods</h3>';
+                tracker.periods.slice().reverse().forEach(period => {
+                    if (period.endDate) {
+                        const start = new Date(period.startDate);
+                        const end = new Date(period.endDate);
+                        const length = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                        html += `<div class="entry">${formatDate(period.startDate)} - ${formatDate(period.endDate)} (${length} days)</div>`;
+                    }
+                });
+                historyDiv.innerHTML = html;
+            } else {
+                historyDiv.innerHTML = 'No period history yet';
+            }
+        }
+
+        // Helper function to format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', () => {
+            const today = new Date().toISOString().split('T')[0];
+
+            // Check if period already started
+            const hasActivePeriod = tracker.periods.some(p => !p.endDate);
+            if (hasActivePeriod) {
+                alert('You already have an active period!');
+                return;
+            }
+
+            tracker.periods.push({
+                startDate: today,
+                endDate: null
+            });
+            saveData();
+            updateUI();
+            alert('Period started for today');
+        });
+
+        endBtn.addEventListener('click', () => {
+            const today = new Date().toISOString().split('T')[0];
+            const activePeriod = tracker.periods.find(p => !p.endDate);
+
+            if (!activePeriod) {
+                alert('No active period to end!');
+                return;
+            }
+
+            activePeriod.endDate = today;
+            saveData();
+            updateUI();
+            alert('Period ended for today');
+        });
+
+        logBtn.addEventListener('click', () => {
+            const symptom = document.getElementById('symptomSelect').value;
+            if (!symptom) {
+                alert('Please select a symptom');
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            if (!tracker.symptoms[today]) {
+                tracker.symptoms[today] = [];
+            }
+
+            if (!tracker.symptoms[today].includes(symptom)) {
+                tracker.symptoms[today].push(symptom);
+                saveData();
+                updateUI();
+                document.getElementById('symptomSelect').value = '';
+            } else {
+                alert('This symptom is already logged today');
+            }
+        });
+
+        predictBtn.addEventListener('click', () => {
+            if (tracker.periods.length < 2) {
+                predictionDiv.innerHTML = '<p>Need at least 2 periods to predict</p>';
+                return;
+            }
+
+            // Calculate average cycle length
+            let totalDays = 0;
+            let count = 0;
+
+            for (let i = 1; i < tracker.periods.length; i++) {
+                const prevStart = new Date(tracker.periods[i - 1].startDate);
+                const currStart = new Date(tracker.periods[i].startDate);
+                const diff = (currStart - prevStart) / (1000 * 60 * 60 * 24);
+                totalDays += diff;
+                count++;
+            }
+
+            const avgCycle = Math.round(totalDays / count);
+            const lastPeriod = new Date(tracker.periods[tracker.periods.length - 1].startDate);
+            const nextPredicted = new Date(lastPeriod);
+            nextPredicted.setDate(lastPeriod.getDate() + avgCycle);
+
+            predictionDiv.innerHTML = `
+                <p>Average cycle: ${avgCycle} days</p>
+                <p>Next period likely around: ${nextPredicted.toLocaleDateString()}</p>
+            `;
+        });
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('periodTracker', JSON.stringify(tracker));
+        }
+
+        // Initial UI update
+        updateUI();
+    </script>
+</body>
+
+</html>
